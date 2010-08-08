@@ -38,7 +38,7 @@ Sample Code (ASP.Net MVC 2)
 Application Configuration File
 ------------------------------
 
-If you want to store your PayPal preferences (account email, return url, etc.) in your application configuration file, the `PayPalConfigSettings` class will automatically read them for you. To use your own settings, create an instance of `PayPalCustomSettings` and set the properties as needed. Here is a sample set of appSettings values:
+If you want to store your PayPal preferences (account email, return url, etc.) in your application configuration file, the `PayPalConfigSettings` class will automatically read them for you. Alternatively, to manually specify settings, create an instance of `PayPalCustomSettings` and set the properties as needed. Here is a sample set of appSettings values:
 
 		<add key="PayPal.Account" value="mypaypal@mywebsite.com"/>
 		<add key="PayPal.EWP.RecipientPublicCertPath" value="~/App_Data/paypal_cert_pem.txt"/>
