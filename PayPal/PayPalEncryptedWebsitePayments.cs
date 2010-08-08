@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
 
 namespace XMerchant.PayPal
 {
@@ -113,14 +111,7 @@ namespace XMerchant.PayPal
 			return formatted.ToString();
 		}
 
-		public static Uri GetUri(NameValueCollection vars, IPayPalSettings settings, bool isTest)
-		{
-			return new Uri((isTest ? PayPalURL.Sandbox : PayPalURL.Production) + "?"
-				+ PayPalRequestVariables.Command + "=" + PayPalManager.ValueOf(PayPalCommand.EncryptedCommand)
-				+ "&encrypted=" + HttpUtility.UrlEncode(Encrypt(vars, settings)));
-		}
-
-		public static string Encrypt(NameValueCollection vars, IPayPalSettings settings)
+		public static NameValueCollection Encrypt(NameValueCollection vars, IPayPalSettings settings)
 		{
 			var sb = new StringBuilder();
 			foreach(var key in vars.AllKeys)
@@ -129,51 +120,11 @@ namespace XMerchant.PayPal
 			var ewp = new PayPalEncryptedWebsitePayments();
 			ewp.LoadSignerCredential(settings.SignerPfxPath, settings.SignerPfxPassword);
 			ewp.RecipientPublicCertPath = settings.RecipientPublicCertPath;
-			return ewp.SignAndEncrypt(sb.ToString());
-		}
-	}
-
-	public interface IPayPalSettings
-	{
-		string Account { get; }
-		string RecipientPublicCertPath { get; }
-		string SignerPfxPath { get; }
-		string SignerPfxPassword { get; }
-		string CertID { get; }
-	}
-
-	public class PayPalConfigSettings : IPayPalSettings
-	{
-		public string Account
-		{
-			get { return ConfigurationManager.AppSettings["PayPal.Account"]; }
-		}
-
-		private string GetPath(string path)
-		{
-			if(HttpContext.Current == null || path.Contains(":\\") || path.StartsWith("\\\\"))
-				return path;
-			return HttpContext.Current.Server.MapPath(path);
-		}
-
-		public string RecipientPublicCertPath
-		{
-			get { return GetPath(ConfigurationManager.AppSettings["PayPal.EWP.RecipientPublicCertPath"]); }
-		}
-
-		public string SignerPfxPath
-		{
-			get { return GetPath(ConfigurationManager.AppSettings["PayPal.EWP.SignerPfxPath"]); }
-		}
-
-		public string SignerPfxPassword
-		{
-			get { return ConfigurationManager.AppSettings["PayPal.EWP.SignerPfxPassword"]; }
-		}
-
-		public string CertID
-		{
-			get { return ConfigurationManager.AppSettings["PayPal.EWP.CertID"]; }
+			return new NameValueCollection
+			{
+				{ PayPalRequestVariables.Command, PayPalManager.ValueOf(PayPalCommand.EncryptedCommand) },
+				{ PayPalRequestVariables.EncryptedData, ewp.SignAndEncrypt(sb.ToString()) }
+			};
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace XMerchant
 {
 	internal static class Extensions
 	{
-		public static string ToQueryString(this NameValueCollection values)
+		internal static string ToQueryString(this NameValueCollection values)
 		{
 			if (values == null)
 				return string.Empty;
@@ -16,7 +17,21 @@ namespace XMerchant
 			return list.Concat("&");
 		}
 
-		public static string Concat<T>(this IEnumerable<T> values, string delimiter)
+		internal static string ResolveUrl(this string str)
+		{
+			if(HttpContext.Current == null || str.Contains("://"))
+				return str;
+			if(str.StartsWith("~/"))
+			{
+				var appPath = HttpContext.Current.Request.ApplicationPath;
+				if(appPath == "/")
+					appPath = "";
+				str = appPath + str.Substring(1);
+			}
+			return new Uri(HttpContext.Current.Request.Url, str).ToString();
+		}
+
+		internal static string Concat<T>(this IEnumerable<T> values, string delimiter)
 		{
 			StringBuilder sb = new StringBuilder();
 			int c = 0;
@@ -30,13 +45,13 @@ namespace XMerchant
 			return sb.ToString();
 		}
 
-		public delegate string StringEncodeHandler<T>(T input);
-		public static string Concat<T>(this IEnumerable<T> values, StringEncodeHandler<T> encodeValue)
+		internal delegate string StringEncodeHandler<in T>(T input);
+		internal static string Concat<T>(this IEnumerable<T> values, StringEncodeHandler<T> encodeValue)
 		{
 			return values.Concat("", encodeValue);
 		}
 
-		public static string Concat<T>(this IEnumerable<T> values, string delimiter, StringEncodeHandler<T> encodeValue)
+		internal static string Concat<T>(this IEnumerable<T> values, string delimiter, StringEncodeHandler<T> encodeValue)
 		{
 			StringBuilder sb = new StringBuilder();
 			int c = 0;

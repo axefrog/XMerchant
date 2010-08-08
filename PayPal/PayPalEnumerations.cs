@@ -245,15 +245,15 @@ namespace XMerchant.PayPal
 	/// https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables#id08A6HF00TZS
 	/// https://www.x.com/message/157476#157476
 	/// </summary>
-	public enum PayPalReturnURLMethod
+	public enum PayPalReturnUrlMethod
 	{
 		[Description("All shopping cart transactions use the GET method")]
 		[PayPalValue("0")]
 		Default,
-		[Description("The payer's browser is redirected to the return URL by the GET method and no transaction variables are sent")]
+		[Description("The payer's browser is redirected to the return Url by the GET method and no transaction variables are sent")]
 		[PayPalValue("1")]
 		Get,
-		[Description("the payer's browser is redirected to the return URL by the POST method and all transaction variables are also posted")]
+		[Description("the payer's browser is redirected to the return Url by the POST method and all transaction variables are also posted")]
 		[PayPalValue("2")]
 		Post
 	}

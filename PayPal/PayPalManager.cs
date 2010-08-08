@@ -11,7 +11,7 @@ namespace XMerchant.PayPal
 	{
 		public static bool AuthenticateIPN(IPayPalTransaction transaction, NameValueCollection form)
 		{
-			var url = transaction.IsTest ? PayPalURL.Sandbox : PayPalURL.Production;
+			var url = transaction.IsTest ? PayPalUrl.Sandbox : PayPalUrl.Production;
 			string data = string.Concat(PayPalRequestVariables.Command, "=", EnumToVar(PayPalCommand.ValidateIPN), "&", form.ToQueryString());
 			return new WebClient().UploadString(url, data).Trim() == "VERIFIED";
 		}
@@ -53,8 +53,9 @@ namespace XMerchant.PayPal
 			return trans;
 		}
 
-		public static void Encrypt()
+		public static Uri GetSubscriptionCancelUrl(bool testMode, string paypalMerchantEmail)
 		{
+			return new Uri(testMode ? PayPalUrl.Sandbox : PayPalUrl.Production + "?cmd=_subscr-find&alias=" + paypalMerchantEmail);
 		}
 
 		public static PayPalCaseType GetCaseType(string case_type)
@@ -77,7 +78,7 @@ namespace XMerchant.PayPal
 			return EnumToVar(type);
 		}
 
-		public static string ValueOf(PayPalReturnURLMethod method)
+		public static string ValueOf(PayPalReturnUrlMethod method)
 		{
 			return EnumToVar(method);
 		}

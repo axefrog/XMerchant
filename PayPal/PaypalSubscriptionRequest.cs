@@ -5,41 +5,22 @@ namespace XMerchant.PayPal
 {
 	public class PaypalSubscriptionRequest
 	{
-		private string _sellerPayPalAccount;
-		//private string ipnURL;
+		private readonly IPayPalSettings _settings;
 
-		private bool _testMode;
-		public PaypalSubscriptionRequest(bool testMode, string sellerPayPalAccount, string notifyURL, string returnURL, string cancelURL)
+		public PaypalSubscriptionRequest()
 		{
-			EditMode = PayPalSubscriptionEditMode.CreateOrModify;
-			ItemName = "";
-			TrialPeriodPrice = 0;
-			TrialPeriodSize = 1;
-			TrialPeriodUnit = PayPalSubscriptionPeriodUnit.Month;
-			SubscriptionPrice = 1;
-			SubscriptionPeriodSize = 1;
-			CustomValue = "";
-			ItemNumber = "";
-			LogoURL = "";
-			ReturnURL = returnURL;
-			CancelURL = cancelURL;
-			NotifyURL = notifyURL;
+		}
 
-			_testMode = testMode;
-			_sellerPayPalAccount = sellerPayPalAccount;
+		public PaypalSubscriptionRequest(IPayPalSettings settings) : this()
+		{
+			_settings = settings;
+			EditMode = PayPalSubscriptionEditMode.CreateOnly;
+			SubscriptionPeriod = new Period { Price = 1, Length = 1, Unit = PayPalSubscriptionPeriodUnit.Month };
+			Recurs = PayPalSubscriptionRecurrance.On;
+			Shipping = PayPalShippingMode.Disabled;
 		}
 
 		public PayPalSubscriptionEditMode EditMode { get; set; }
-
-		/// <summary>
-		/// The URL which will receive instant payment notifications automatically when aspects of the subscription change
-		/// </summary>
-		public string NotifyURL { get; set; }
-
-		/// <summary>
-		/// The URL of the company logo to use
-		/// </summary>
-		public string LogoURL { get; set; }
 
 		/// <summary>
 		/// The item reference number
@@ -52,101 +33,97 @@ namespace XMerchant.PayPal
 		public string CustomValue { get; set; }
 
 		/// <summary>
-		/// The subscription billing period time unit
-		/// </summary>
-		public PayPalSubscriptionPeriodUnit SubscriptionPeriodUnit { get; set; }
-
-		/// <summary>
-		/// The number of time units that make up the billing period
-		/// </summary>
-		public int SubscriptionPeriodSize { get; set; }
-
-		/// <summary>
-		/// The price of the subscription per time unit
-		/// </summary>
-		public double SubscriptionPrice { get; set; }
-
-		/// <summary>
-		/// Size of the trial period time unit (see TrialPeriodSize)
-		/// </summary>
-		public PayPalSubscriptionPeriodUnit TrialPeriodUnit { get; set; }
-
-		/// <summary>
-		/// Number of time units that the trial period should last for
-		/// </summary>
-		public int TrialPeriodSize { get; set; }
-
-		/// <summary>
-		/// Cost of the trial period. Set to 0 to make it free.
-		/// </summary>
-		public double TrialPeriodPrice { get; set; }
-
-		/// <summary>
-		/// A URL where the user is to be sent if the transaction is cancelled.
-		/// </summary>
-		public string CancelURL { get; set; }
-
-		/// <summary>
-		/// The URL where the user is returned to after completing the transaction.
-		/// Variables detailing the transaction are posted here.
-		/// </summary>
-		public string ReturnURL { get; set; }
-
-		/// <summary>
 		/// A descriptive name for the type of subscription
 		/// </summary>
 		public string ItemName { get; set; }
 
-		public NameValueCollection GetNameValueCollection()
+		public class Period
+		{
+			/// <summary>
+			/// Size of the period time unit (see <see cref="Length" />)
+			/// </summary>
+			public PayPalSubscriptionPeriodUnit Unit { get; set; }
+
+			/// <summary>
+			/// Number of time units that the period should last for
+			/// </summary>
+			public int Length { get; set; }
+
+			/// <summary>
+			/// Cost of the period. Set to 0 to make it free.
+			/// </summary>
+			public double Price { get; set; }
+		}
+
+		/// <summary>
+		/// The details for the first trial period (null if no trial period)
+		/// </summary>
+		public Period TrialPeriod1 { get; set; }
+
+		/// <summary>
+		/// The details for the second trial period (requires a value for <see cref="TrialPeriod1" />, or null if no second trial period)
+		/// </summary>
+		public Period TrialPeriod2 { get; set; }
+
+		/// <summary>
+		/// The details for the regular subscription period
+		/// </summary>
+		public Period SubscriptionPeriod { get; set; }
+
+		/// <summary>
+		/// Indicates whether or not subscription payments recur after the first regular subscription period has ended
+		/// </summary>
+		public PayPalSubscriptionRecurrance Recurs { get; set; }
+
+		/// <summary>
+		/// Specifies whether or not that customer should provide shipping information during the checkout process
+		/// </summary>
+		public PayPalShippingMode Shipping { get; set; }
+
+		public NameValueCollection GetValues()
 		{
 			var nvc = new NameValueCollection
 			{
 				{ PayPalRequestVariables.Command, PayPalManager.ValueOf(PayPalCommand.Subscription) },
-				{ PayPalRequestVariables.SellerPayPalAccount, _sellerPayPalAccount },
+				{ PayPalRequestVariables.SellerPayPalAccount, _settings.Account },
 				{ PayPalRequestVariables.ItemName, ItemName },
 				{ PayPalRequestVariables.ItemNumber, ItemNumber },
-				{ PayPalRequestVariables.ReturnURL, ReturnURL },
-				{ PayPalRequestVariables.InstantPaymentNotificationURL, NotifyURL },
-				{ PayPalRequestVariables.SubscriptionCancellationURL, CancelURL },
-				{ PayPalRequestVariables.CustomLogoURL, LogoURL },
-				{ PayPalRequestVariables.ReturnURLMethod, PayPalManager.ValueOf(PayPalReturnURLMethod.Post) },
-				{ PayPalRequestVariables.ShippingMode, PayPalManager.ValueOf(PayPalShippingMode.Disabled) },
-				{ PayPalRequestVariables.SubscriptionPrice, SubscriptionPrice.ToString() },
-				{ PayPalRequestVariables.SubscriptionPeriodDuration, SubscriptionPeriodSize.ToString() },
-				{ PayPalRequestVariables.SubscriptionPeriodDurationUnit, PayPalManager.ValueOf(SubscriptionPeriodUnit) },
-				{ PayPalRequestVariables.SubscriptionPaymentsRecur, PayPalManager.ValueOf(PayPalSubscriptionRecurrance.On) },
+				{ PayPalRequestVariables.ReturnUrlMethod, PayPalManager.ValueOf(PayPalReturnUrlMethod.Post) },
+				{ PayPalRequestVariables.ShippingMode, PayPalManager.ValueOf(Shipping) },
+				{ PayPalRequestVariables.SubscriptionPrice, SubscriptionPeriod.Price.ToString() },
+				{ PayPalRequestVariables.SubscriptionPeriodDuration, SubscriptionPeriod.Length.ToString() },
+				{ PayPalRequestVariables.SubscriptionPeriodDurationUnit, PayPalManager.ValueOf(SubscriptionPeriod.Unit) },
+				{ PayPalRequestVariables.SubscriptionPaymentsRecur, PayPalManager.ValueOf(Recurs) },
 				{ PayPalRequestVariables.ReattemptPaymentOnFailure, PayPalManager.ValueOf(PayPalFailedPaymentReattempt.On) },
 				{ PayPalRequestVariables.AllowPaymentNoteFromCustomer, PayPalManager.ValueOf(PayPalUserPaymentNote.Disallowed) },
 				{ PayPalRequestVariables.CustomValue, CustomValue },
 				{ PayPalRequestVariables.SubscriptionModification, PayPalManager.ValueOf(EditMode) },
 			};
-			if (TrialPeriodSize > 0)
+			if (TrialPeriod1 != null)
 			{
-				nvc.Add(PayPalRequestVariables.TrialPeriod1Price, TrialPeriodPrice.ToString());
-				nvc.Add(PayPalRequestVariables.TrialPeriod1Duration, TrialPeriodSize.ToString());
-				nvc.Add(PayPalRequestVariables.TrialPeriod1DurationUnit, PayPalManager.ValueOf(TrialPeriodUnit));
+				nvc.Add(PayPalRequestVariables.TrialPeriod1Price, TrialPeriod1.Price.ToString());
+				nvc.Add(PayPalRequestVariables.TrialPeriod1Duration, TrialPeriod1.Length.ToString());
+				nvc.Add(PayPalRequestVariables.TrialPeriod1DurationUnit, PayPalManager.ValueOf(TrialPeriod1.Unit));
 			}
+			if (TrialPeriod2 != null)
+			{
+				nvc.Add(PayPalRequestVariables.TrialPeriod2Price, TrialPeriod2.Price.ToString());
+				nvc.Add(PayPalRequestVariables.TrialPeriod2Duration, TrialPeriod2.Length.ToString());
+				nvc.Add(PayPalRequestVariables.TrialPeriod2DurationUnit, PayPalManager.ValueOf(TrialPeriod2.Unit));
+			}
+			if(!string.IsNullOrWhiteSpace(_settings.NotifyUrl))
+				nvc.Add(PayPalRequestVariables.InstantPaymentNotificationUrl, _settings.NotifyUrl.ResolveUrl());
+
+			if(!string.IsNullOrWhiteSpace(_settings.ReturnUrl))
+				nvc.Add(PayPalRequestVariables.ReturnUrl, _settings.ReturnUrl.ResolveUrl());
+
+			if(!string.IsNullOrWhiteSpace(_settings.CancelUrl))
+				nvc.Add(PayPalRequestVariables.PaymentCancellationUrl, _settings.CancelUrl.ResolveUrl());
+
+			if(!string.IsNullOrWhiteSpace(_settings.LogoUrl))
+				nvc.Add(PayPalRequestVariables.CustomLogoUrl, _settings.LogoUrl.ResolveUrl());
+
 			return nvc;
-		}
-
-		public Uri GetUriEncrypted(IPayPalSettings settings)
-		{
-			return PayPalEncryptedWebsitePayments.GetUri(GetNameValueCollection(), settings, _testMode);
-		}
-
-		public string GetEncrypted(IPayPalSettings settings)
-		{
-			return PayPalEncryptedWebsitePayments.Encrypt(GetNameValueCollection(), settings);
-		}
-
-		public Uri GetUri()
-		{
-			return new Uri((_testMode ? PayPalURL.Sandbox : PayPalURL.Production) + "?" + GetNameValueCollection().ToQueryString());
-		}
-
-		public static string GetCancelLink(bool testMode, string paypalMerchantEmail)
-		{
-			return (testMode ? PayPalURL.Sandbox : PayPalURL.Production) + "?cmd=_subscr-find&alias=" + paypalMerchantEmail;
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace XMerchant.PayPal
 {
-	public class PayPalURL
+	public class PayPalUrl
 	{
 		public const string Production = "https://www.paypal.com/cgi-bin/webscr";
 		public const string Sandbox = "https://www.sandbox.paypal.com/cgi-bin/webscr";
@@ -28,11 +28,11 @@ namespace XMerchant.PayPal
 		/// </summary>
 		public const string ItemName = "item_name";
 		public const string ItemNumber = "item_number";
-		public const string ReturnURL = "return";
-		public const string ReturnURLMethod = "rm";
-		public const string InstantPaymentNotificationURL = "notify_url";
-		public const string SubscriptionCancellationURL = "cancel_return";
-		public const string CustomLogoURL = "image_url";
+		public const string ReturnUrl = "return";
+		public const string ReturnUrlMethod = "rm";
+		public const string InstantPaymentNotificationUrl = "notify_url";
+		public const string PaymentCancellationUrl = "cancel_return";
+		public const string CustomLogoUrl = "image_url";
 		public const string ShippingMode = "no_shipping";
 		/// <summary>
 		/// The currency of prices for trial periods and the subscription. The default is USD. For allowable values, see Currency Codes.
@@ -131,6 +131,8 @@ namespace XMerchant.PayPal
 		/// </summary>
 		public const string SubscriptionModification = "modify";
 		public const string PayPalNewUserAutoGenerate = "usr_manage";
+
+		public const string EncryptedData = "encrypted";
 
 		/// <summary>
 		/// https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_html_IPNandPDTVariables#id091EB01I0Y4
