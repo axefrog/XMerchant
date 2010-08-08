@@ -6,7 +6,7 @@ XMerchant is a set of .Net class libraries, built against the .Net 4.0 Framework
 Current Status
 --------------
 
-The library currently supports a partial implementation of PayPal's Website Payments Standard gateway, and can handle IPN notifications and create subscription requests. Encrypted Website Payments (EWP) is also supported, but doesn't yet work correctly.
+The library currently supports a partial implementation of PayPal's Website Payments Standard gateway, and can handle IPN notifications and create subscription requests. Encrypted Website Payments (EWP) is also supported.
 
 Sample Code (ASP.Net MVC 2)
 ---------------------------
