@@ -115,8 +115,8 @@ namespace XMerchant.PayPal
 		{
 			var sb = new StringBuilder();
 			foreach(var key in vars.AllKeys)
-				sb.Append(key).Append("=").AppendLine(vars[key]);
-			sb.Append("cert_id=").AppendLine(settings.CertID);
+				sb.Append(key).Append("=").Append(vars[key]).Append("\n");
+			sb.Append("cert_id=").Append(settings.CertID);
 			var ewp = new PayPalEncryptedWebsitePayments();
 			ewp.LoadSignerCredential(settings.SignerPfxPath, settings.SignerPfxPassword);
 			ewp.RecipientPublicCertPath = settings.RecipientPublicCertPath;
