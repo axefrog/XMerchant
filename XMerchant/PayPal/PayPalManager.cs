@@ -9,9 +9,9 @@ namespace XMerchant.PayPal
 {
 	public static class PayPalManager
 	{
-		public static bool AuthenticateIPN(IPayPalTransaction transaction, NameValueCollection form)
+		internal static bool AuthenticateIPN(NameValueCollection form)
 		{
-			var url = transaction.IsTest ? PayPalUrl.Sandbox : PayPalUrl.Production;
+			var url = form[PayPalResponseVariables.TransactionInformation.IsTest] == "1" ? PayPalUrl.Sandbox : PayPalUrl.Production;
 			string data = string.Concat(PayPalRequestVariables.Command, "=", EnumToVar(PayPalCommand.ValidateIPN), "&", form.ToQueryString());
 			return new WebClient().UploadString(url, data).Trim() == "VERIFIED";
 		}

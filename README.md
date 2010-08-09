@@ -53,6 +53,28 @@ If you want to store your PayPal preferences (account email, return url, etc.) i
 
 You can ignore the EWP values if you're not using Encrypted Website Payments. The only required value is `PayPal.Account`, without which PayPal won't know which account should receive the payment.
 
+How to Process IPN Notifications (ASP.Net MVC 2)
+------------------------------------------------
+
+Make sure you specify in your initial PayPal transaction request that the return URL points at your IPN controller. The code below has three important items: (1) The model binder must be registered statically, (2) The AuthenticateIPN attribute should be on the IPN action (unless you want to test IPN notifications from an source other than PayPal) and (3) your IPN action should accept a single parameter of type IPayPalTransaction which you can cast to the appropriate type after checking the TransactionType property.
+
+	public class PayPalController : Controller
+	{
+		static PayPalController()
+		{
+			PayPalModelBinder.Register();
+		}
+
+		[AuthenticateIPN]
+		public void IPN(IPayPalTransaction trans)
+		{
+			switch(trans.TransactionType)
+			{
+				// process here...
+			}
+		}
+	}
+
 Future Plans
 ------------
 Implement support for:
