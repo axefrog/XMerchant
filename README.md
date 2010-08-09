@@ -51,7 +51,7 @@ If you want to store your PayPal preferences (account email, return url, etc.) i
 		<add key="PayPal.LogoUrl" value="~/images/logo.png"/>
 		<add key="PayPal.TestMode" value="false"/>
 
-You can ignore the EWP values if you're not using Encrypted Website Payments. The only required value is `PayPal.Account`, without which PayPal won't know which account should receive the payment.
+You can ignore the EWP values if you're not using Encrypted Website Payments. The only required value is `PayPal.Account`, without which PayPal won't know which account should receive the payment. See "this post":http://forums.asp.net/p/1236969/2248178.aspx for a bit more information on setting up your EWP values.
 
 How to Process IPN Notifications (ASP.Net MVC 2)
 ------------------------------------------------
