@@ -9,6 +9,48 @@ namespace XMerchant.PayPal
 {
 	public static class PayPalManager
 	{
+		public static PayPalTransaction CreateTransactionFrom(NameValueCollection form)
+		{
+			PayPalTransaction trans = new PayPalTransaction();
+
+			// Transaction Information
+			trans.RecipientAccount = form[PayPalResponseVariables.TransactionInformation.RecipientAccount];
+			trans.RecipientAccountEmail = form[PayPalResponseVariables.TransactionInformation.RecipientAccountEmail];
+			trans.RecipientAccountID = form[PayPalResponseVariables.TransactionInformation.RecipientAccountID];
+			trans.CharacterSet = form[PayPalResponseVariables.TransactionInformation.CharacterSet];
+			trans.CustomReference = form[PayPalResponseVariables.TransactionInformation.CustomReference];
+			trans.NotificationVersion = form[PayPalResponseVariables.TransactionInformation.NotificationVersion];
+			trans.ParentTransactionID = form[PayPalResponseVariables.TransactionInformation.ParentTransactionID];
+			trans.GuestReceiptID = form[PayPalResponseVariables.TransactionInformation.GuestReceiptID];
+			trans.Resent = form[PayPalResponseVariables.TransactionInformation.Resent] == "true";
+			trans.PurchaseCountryCode = form[PayPalResponseVariables.TransactionInformation.CountryCode];
+			trans.IsTest = form[PayPalResponseVariables.TransactionInformation.IsTest] == "1";
+			trans.TransactionID = form[PayPalResponseVariables.TransactionInformation.TransactionID];
+			trans.TransactionType = GetTransactionType(form[PayPalResponseVariables.TransactionInformation.TransactionType]);
+			trans.Signature = form[PayPalResponseVariables.TransactionInformation.Signature];
+
+			// Buyer Information
+			trans.Country = form[PayPalResponseVariables.BuyerInformation.Country];
+			trans.City = form[PayPalResponseVariables.BuyerInformation.City];
+			trans.CountryCode = form[PayPalResponseVariables.BuyerInformation.CountryCode];
+			trans.RecipientName = form[PayPalResponseVariables.BuyerInformation.RecipientName];
+			trans.State = form[PayPalResponseVariables.BuyerInformation.State];
+			trans.Status = GetAddressStatus(form[PayPalResponseVariables.BuyerInformation.Status]);
+			trans.Street = form[PayPalResponseVariables.BuyerInformation.Street];
+			trans.PostalCode = form[PayPalResponseVariables.BuyerInformation.PostalCode];
+			trans.Phone = form[PayPalResponseVariables.BuyerInformation.Phone];
+			trans.FirstName = form[PayPalResponseVariables.BuyerInformation.FirstName];
+			trans.LastName = form[PayPalResponseVariables.BuyerInformation.LastName];
+			trans.BusinessName = form[PayPalResponseVariables.BuyerInformation.BusinessName];
+			trans.Email = form[PayPalResponseVariables.BuyerInformation.Email];
+			trans.PayerID = form[PayPalResponseVariables.BuyerInformation.PayerID];
+
+			// Subscription Information
+
+
+			return trans;
+		}
+
 		internal static bool AuthenticateIPN(NameValueCollection form)
 		{
 			var url = form[PayPalResponseVariables.TransactionInformation.IsTest] == "1" ? PayPalUrl.Sandbox : PayPalUrl.Production;
@@ -16,51 +58,24 @@ namespace XMerchant.PayPal
 			return new WebClient().UploadString(url, data).Trim() == "VERIFIED";
 		}
 
-		public static PayPalTransactionType GetTransactionType(string txn_type)
-		{
-			return VarToEnum<PayPalTransactionType>(txn_type);
-		}
-
-		public static IPayPalTransaction CreateTransactionFrom(NameValueCollection form)
-		{
-			var transType = GetTransactionType(form[PayPalResponseVariables.TransactionInformation.TransactionType]);
-
-			IPayPalTransaction trans = new PayPalTransaction();
-			trans.RecipientAccount = form[PayPalResponseVariables.TransactionInformation.RecipientAccount];
-			trans.CharacterSet = form[PayPalResponseVariables.TransactionInformation.CharacterSet];
-			trans.CustomReference = form[PayPalResponseVariables.TransactionInformation.CustomReference];
-			trans.NotificationVersion = form[PayPalResponseVariables.TransactionInformation.NotificationVersion];
-			trans.ParentTransactionID = form[PayPalResponseVariables.TransactionInformation.ParentTransactionID];
-			trans.GuestReceiptID = form[PayPalResponseVariables.TransactionInformation.GuestReceiptID];
-			trans.RecipientAccountEmail = form[PayPalResponseVariables.TransactionInformation.RecipientAccountEmail];
-			trans.RecipientAccountID = form[PayPalResponseVariables.TransactionInformation.RecipientAccountID];
-			trans.Resent = form[PayPalResponseVariables.TransactionInformation.Resent] == "true";
-			trans.CountryCode = form[PayPalResponseVariables.TransactionInformation.CountryCode];
-			trans.IsTest = form[PayPalResponseVariables.TransactionInformation.IsTest] == "1";
-			trans.TransactionID = form[PayPalResponseVariables.TransactionInformation.TransactionID];
-			trans.TransactionType = transType;
-			trans.RecipientAccountID = form[PayPalResponseVariables.TransactionInformation.RecipientAccountID];
-
-			switch(trans.TransactionType)
-			{
-				case PayPalTransactionType.WebAccept:
-					break;
-
-				case PayPalTransactionType.WebsitePaymentsProFee:
-					break;
-			}
-
-			return trans;
-		}
-
 		public static Uri GetSubscriptionCancelUrl(bool testMode, string paypalMerchantEmail)
 		{
 			return new Uri(testMode ? PayPalUrl.Sandbox : PayPalUrl.Production + "?cmd=_subscr-find&alias=" + paypalMerchantEmail);
 		}
 
+		public static PayPalTransactionType GetTransactionType(string txn_type)
+		{
+			return VarToEnum<PayPalTransactionType>(txn_type);
+		}
+
 		public static PayPalCaseType GetCaseType(string case_type)
 		{
 			return VarToEnum<PayPalCaseType>(case_type);
+		}
+
+		public static PayPalAddressStatus GetAddressStatus(string address_status)
+		{
+			return VarToEnum<PayPalAddressStatus>(address_status);
 		}
 
 		public static string ValueOf(PayPalCommand cmd)

@@ -7,10 +7,10 @@ namespace XMerchant.PayPal.Web
 	{
 		public static void Register()
 		{
-			lock(typeof(IPayPalTransaction))
+			lock(typeof(PayPalTransaction))
 			{
-				if(ModelBinders.Binders[typeof(IPayPalTransaction)] == null)
-					ModelBinders.Binders[typeof(IPayPalTransaction)] = new PayPalModelBinder();
+				if(ModelBinders.Binders[typeof(PayPalTransaction)] == null)
+					ModelBinders.Binders[typeof(PayPalTransaction)] = new PayPalModelBinder();
 			}
 		}
 

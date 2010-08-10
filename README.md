@@ -66,7 +66,7 @@ Make sure you specify in your initial PayPal transaction request that the return
 		}
 
 		[AuthenticateIPN]
-		public void IPN(IPayPalTransaction trans)
+		public void IPN(PayPalTransaction trans)
 		{
 			switch(trans.TransactionType)
 			{
