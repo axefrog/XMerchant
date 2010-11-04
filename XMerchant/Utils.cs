@@ -22,5 +22,29 @@ namespace XMerchant
 			}
 			return new Uri(HttpContext.Current.Request.Url, str).ToString();
 		}
+
+		public static string Concat<T>(this IEnumerable<T> values, string delimiter)
+		{
+			StringBuilder sb = new StringBuilder();
+			int c = 0;
+			if(values == null) values = new T[0];
+			foreach(T k in values)
+			{
+				if(c++ > 0)
+					sb.Append(delimiter);
+				sb.Append(k);
+			}
+			return sb.ToString();
+		}
+
+		public static string ToQueryString(this NameValueCollection nvc)
+		{
+			if (nvc == null)
+				return string.Empty;
+			List<string> list = new List<string>();
+			foreach (string key in nvc.Keys)
+				list.Add(HttpUtility.UrlEncode(key.ToString()) + "=" + HttpUtility.UrlEncode(nvc[key]));
+			return list.Concat("&");
+		}
 	}
 }
