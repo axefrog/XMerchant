@@ -13,6 +13,12 @@ namespace XMerchant.PayPal
 	/// </summary>
 	public class PayPalConfigSettings : IPayPalSettings
 	{
+		private static PayPalConfigSettings _default = new PayPalConfigSettings();
+		public static PayPalConfigSettings Default
+		{
+			get { return _default; }
+		}
+
 		/// <summary>
 		/// See appSettings in your application configuration file under "PayPal.Account".
 		/// </summary>
@@ -28,6 +34,19 @@ namespace XMerchant.PayPal
 		public bool TestMode
 		{
 			get { return (ConfigurationManager.AppSettings["PayPal.TestMode"] ?? "").ToLower() == "true"; }
+		}
+
+		/// <summary>
+		/// See appSettings in your application configuration file under "PayPal.Encrypt". A value of "true" is required to
+		/// indicate that payment variables should be encrypted befoe being written to a form.
+		/// </summary>
+		public bool Encrypt
+		{
+			get
+			{
+				var val = (ConfigurationManager.AppSettings["PayPal.Encrypt"] ?? "").ToLower();
+				return val == "true" || (!HttpContext.Current.Request.IsLocal && val == "remoteonly");
+			}
 		}
 
 		private string GetPath(string path)

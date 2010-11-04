@@ -19,6 +19,11 @@ namespace XMerchant.PayPal
 		public bool TestMode { get; set; }
 
 		/// <summary>
+		/// Specifies that the payment form variables should be encrypted before being written to a page
+		/// </summary>
+		public bool Encrypt { get; set; }
+
+		/// <summary>
 		/// The path to the PayPal public certificate that is downloaded from the PayPal website for use with Encrypted Website Payments (EWP)
 		/// </summary>
 		public string RecipientPublicCertPath { get; set; }

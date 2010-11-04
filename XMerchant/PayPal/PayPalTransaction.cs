@@ -108,7 +108,7 @@ namespace XMerchant.PayPal
 		/// <summary>
 		/// Whether the customer provided a confirmed address
 		/// </summary>
-		public PayPalAddressStatus Status { get; set; }
+		public PayPalAddressStatus? Status { get; set; }
 
 		/// <summary>
 		/// Customer's street address. (Length: 200 characters)
@@ -222,9 +222,11 @@ namespace XMerchant.PayPal
 		#endregion
 
 		#region Payment Information Variables
-
+		public double? TransactionFee { get; set; }
+		public double? GrossAmount { get; set; }
+		public PayPalPaymentStatus? PaymentStatus { get; set; }
+		public PayPalReasonCode? ReasonCode { get; set; }
 		#endregion
-		public double AuthorizationAmount { get; set; }
 
 	}
 }

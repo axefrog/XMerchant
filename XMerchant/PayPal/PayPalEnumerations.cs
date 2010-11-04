@@ -116,14 +116,62 @@ namespace XMerchant.PayPal
 
 	public enum PayPalPayerStatus
 	{
+		[PayPalValue("verified")]
 		Verified,
+		[PayPalValue("unverified")]
 		Unverified
 	}
 
-	public enum PayPalAuthorizationResponse
+	public enum PayPalReasonCode
 	{
-		Success,
-		Failed
+		/// <summary>
+		/// Reversal of an adjustment
+		/// </summary>
+		[Description("Reversal of an adjustment")]
+		[PayPalValue("adjustment_reversal")]
+		AdjustmentReversal,
+		/// <summary>
+		/// A reversal has occurred on this transaction due to a complaint about the transaction from your customer
+		/// </summary>
+		[Description("A reversal has occurred on this transaction due to a complaint about the transaction from your customer")]
+		[PayPalValue("buyer-complaint")]
+		BuyerComplaint,
+		/// <summary>
+		/// A reversal has occurred on this transaction due to a chargeback by your customer
+		/// </summary>
+		[Description("A reversal has occurred on this transaction due to a chargeback by your customer")]
+		[PayPalValue("chargeback")]
+		Chargeback,
+		/// <summary>
+		/// Reimbursement for a chargeback
+		/// </summary>
+		[Description("Reimbursement for a chargeback")]
+		[PayPalValue("chargeback_reimbursement")]
+		ChargebackReimbursement,
+		/// <summary>
+		/// Settlement of a chargeback
+		/// </summary>
+		[Description("Settlement of a chargeback")]
+		[PayPalValue("chargeback_settlement")]
+		ChargebackSettlement,
+		/// <summary>
+		/// A reversal has occurred on this transaction due to your customer triggering a money-back guarantee
+		/// </summary>
+		[Description("A reversal has occurred on this transaction due to your customer triggering a money-back guarantee")]
+		[PayPalValue("guarantee")]
+		Guarantee,
+		/// <summary>
+		/// A reversal has occurred on this transaction because you have given the customer a refund
+		/// </summary>
+		[Description("A reversal has occurred on this transaction because you have given the customer a refund")]
+		[PayPalValue("refund")]
+		Refund,
+		/// <summary>
+		/// Non-specified reason
+		/// </summary>
+		[Description("Non-specified reason")]
+		[PayPalValue("other")]
+		Unspecified
 	}
 
 	public enum PayPalCommand
@@ -187,55 +235,67 @@ namespace XMerchant.PayPal
 		/// A reversal has been canceled. For example, you won a dispute with the customer, and the
 		/// funds for the transaction that was reversed have been returned to you.
 		/// </summary>
+		[PayPalValue("Canceled_Reversal")]
 		CanceledReversal,
 		/// <summary>
 		/// The payment has been completed, and the funds have been added successfully to your
 		/// account balance.
 		/// </summary>
+		[PayPalValue("Completed")]
 		Completed,
 		/// <summary>
 		/// You denied the payment. This happens only if the payment was previously pending because
 		/// of possible reasons described for the PendingReason element.
 		/// </summary>
+		[PayPalValue("Denied")]
 		Denied,
 		/// <summary>
 		/// This authorization has expired and cannot be captured.
 		/// </summary>
+		[PayPalValue("Expired")]
 		Expired,
 		/// <summary>
 		/// The payment has failed. This happens only if the payment was made from your customer's
 		/// bank account.
 		/// </summary>
+		[PayPalValue("Failed")]
 		Failed,
 		/// <summary>
 		/// The transaction is in process of authorization and capture.
 		/// </summary>
+		[PayPalValue("In-Progress")]
 		InProgress,
 		/// <summary>
 		/// The transaction has been partially refunded.
 		/// </summary>
+		[PayPalValue("Partially-Refunded")]
 		PartiallyRefunded,
 		/// <summary>
 		/// The payment is pending. See pending_ re for more information.
 		/// </summary>
+		[PayPalValue("Pending")]
 		Pending,
 		/// <summary>
 		/// A payment has been accepted.
 		/// </summary>
+		[PayPalValue("Processed")]
 		Processed,
 		/// <summary>
 		/// You refunded the payment.
 		/// </summary>
+		[PayPalValue("Refunded")]
 		Refunded,
 		/// <summary>
 		/// A payment was reversed due to a chargeback or other type of reversal. The funds have been
 		/// removed from your account balance and returned to the buyer. The reason for the reversal
 		/// is specified in the ReasonCode element.
 		/// </summary>
+		[PayPalValue("Reversed")]
 		Reversed,
 		/// <summary>
 		/// This authorization has been voided.
 		/// </summary>
+		[PayPalValue("Voided")]
 		Voided
 	}
 

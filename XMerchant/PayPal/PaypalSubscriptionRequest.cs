@@ -37,6 +37,21 @@ namespace XMerchant.PayPal
 		/// </summary>
 		public string ItemName { get; set; }
 
+		/// <summary>
+		/// An optional override value for the NotifyUrl property in your PayPal settings object
+		/// </summary>
+		public string NotifyUrl { get; set; }
+
+		/// <summary>
+		/// An optional override value for the ReturnUrl property in your PayPal settings object
+		/// </summary>
+		public string ReturnUrl { get; set; }
+
+		/// <summary>
+		/// An optional override value for the CancelUrl property in your PayPal settings object
+		/// </summary>
+		public string CancelUrl { get; set; }
+
 		public class Period
 		{
 			/// <summary>
@@ -111,19 +126,22 @@ namespace XMerchant.PayPal
 				nvc.Add(PayPalRequestVariables.TrialPeriod2Duration, TrialPeriod2.Length.ToString());
 				nvc.Add(PayPalRequestVariables.TrialPeriod2DurationUnit, PayPalManager.ValueOf(TrialPeriod2.Unit));
 			}
-			if(!string.IsNullOrWhiteSpace(_settings.NotifyUrl))
-				nvc.Add(PayPalRequestVariables.InstantPaymentNotificationUrl, _settings.NotifyUrl.ResolveUrl());
+			var notifyUrl = string.IsNullOrWhiteSpace(NotifyUrl) ? string.IsNullOrWhiteSpace(_settings.NotifyUrl) ? null : _settings.NotifyUrl : NotifyUrl;
+			if(notifyUrl != null)
+				nvc.Add(PayPalRequestVariables.InstantPaymentNotificationUrl, notifyUrl.ResolveUrl());
 
-			if(!string.IsNullOrWhiteSpace(_settings.ReturnUrl))
-				nvc.Add(PayPalRequestVariables.ReturnUrl, _settings.ReturnUrl.ResolveUrl());
+			var returnUrl = string.IsNullOrWhiteSpace(ReturnUrl) ? string.IsNullOrWhiteSpace(_settings.ReturnUrl) ? null : _settings.ReturnUrl : ReturnUrl;
+			if(returnUrl != null)
+				nvc.Add(PayPalRequestVariables.ReturnUrl, returnUrl.ResolveUrl());
 
-			if(!string.IsNullOrWhiteSpace(_settings.CancelUrl))
-				nvc.Add(PayPalRequestVariables.PaymentCancellationUrl, _settings.CancelUrl.ResolveUrl());
+			var cancelUrl = string.IsNullOrWhiteSpace(CancelUrl) ? string.IsNullOrWhiteSpace(_settings.CancelUrl) ? null : _settings.CancelUrl : CancelUrl;
+			if(cancelUrl != null)
+				nvc.Add(PayPalRequestVariables.PaymentCancellationUrl, cancelUrl.ResolveUrl());
 
 			if(!string.IsNullOrWhiteSpace(_settings.LogoUrl))
 				nvc.Add(PayPalRequestVariables.CustomLogoUrl, _settings.LogoUrl.ResolveUrl());
 
-			return nvc;
+			return _settings.Encrypt ? PayPalEncryptedWebsitePayments.Encrypt(nvc, _settings) : nvc;
 		}
 	}
 }

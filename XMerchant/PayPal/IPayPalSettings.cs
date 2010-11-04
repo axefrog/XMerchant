@@ -11,6 +11,10 @@
 		/// </summary>
 		bool TestMode { get; }
 		/// <summary>
+		/// Specifies that the payment form variables should be encrypted before being written to a page
+		/// </summary>
+		bool Encrypt { get; }
+		/// <summary>
 		/// The path to the PayPal public certificate that is downloaded from the PayPal website for use with Encrypted Website Payments (EWP)
 		/// </summary>
 		string RecipientPublicCertPath { get; }

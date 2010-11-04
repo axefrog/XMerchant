@@ -17,6 +17,16 @@ namespace XMerchant.PayPal.Web
 			_writer = writer;
 		}
 
+		public PayPalFormWriter()
+		{
+			_writer = HttpContext.Current.Response.Output;
+		}
+
+		public static PayPalFormWriter BeginMvcForm(NameValueCollection payPalVariables)
+		{
+			return new PayPalFormWriter().BeginForm(payPalVariables, PayPalConfigSettings.Default);
+		}
+
 		public PayPalFormWriter BeginForm(NameValueCollection payPalVariables, IPayPalSettings cfg)
 		{
 			lock(_writer)

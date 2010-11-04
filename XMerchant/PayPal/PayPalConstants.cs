@@ -548,7 +548,7 @@ namespace XMerchant.PayPal
 			/// <para>refund: A reversal has occurred on this transaction because you have given the customer a refund.</para>
 			/// <para>NOTE:Additional codes may be returned.</para>
 			/// </summary>
-			public const string ReversalReason = "reason_code";
+			public const string ReasonCode = "reason_code";
 			/// <summary>
 			/// Remaining amount that can be captured with Authorization and Capture
 			/// </summary>
