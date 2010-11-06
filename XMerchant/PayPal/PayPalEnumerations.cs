@@ -393,6 +393,14 @@ namespace XMerchant.PayPal
 		Disallowed
 	}
 
+    public enum PayPalWeightUnit
+    {
+        [PayPalValue("lbs")]
+        Lbs,
+        [PayPalValue("kgs")]
+        Kgs
+    }
+
 	[AttributeUsage(AttributeTargets.Field)]
 	public class PayPalValueAttribute : Attribute
 	{

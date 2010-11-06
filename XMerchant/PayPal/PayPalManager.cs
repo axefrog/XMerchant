@@ -167,6 +167,11 @@ namespace XMerchant.PayPal
 			return EnumToVar(note);
 		}
 
+        public static string ValueOf(PayPalWeightUnit unit)
+        {
+            return EnumToVar(unit);
+        }
+
 		#region Internal Helper Methods
 		static T VarToEnum<T>(string val) where T : struct, IConvertible
 		{
