@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PayPal\PaypalBuyNowRequest.cs" />
     <Compile Include="PayPal\IPayPalSettings.cs" />
     <Compile Include="PayPal\PayPalConfigSettings.cs" />
     <Compile Include="PayPal\PayPalConstants.cs" />

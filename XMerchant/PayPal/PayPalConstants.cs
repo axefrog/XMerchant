@@ -137,6 +137,18 @@ namespace XMerchant.PayPal
 
 		public const string EncryptedData = "encrypted";
 
+		public static class IndividualItems
+		{
+			public const string Amount = "amount";
+			public const string DiscountAmount = "discount_amount";
+			public const string DiscountRate = "discount_rate";
+			public const string ShippingAmount = "shipping";
+			public const string TaxAmount = "tax";
+			public const string TaxRate = "tax_rate";
+			public const string Weight = "weight";
+			public const string WeightUnit = "weight_unit";
+		}
+
 		/// <summary>
 		/// https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_html_IPNandPDTVariables#id091EB01I0Y4
 		/// </summary>
