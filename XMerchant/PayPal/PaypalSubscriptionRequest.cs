@@ -7,17 +7,18 @@ namespace XMerchant.PayPal
 	{
 		private readonly IPayPalSettings _settings;
 
-		public PaypalSubscriptionRequest()
+		protected PaypalSubscriptionRequest()
 		{
+			EditMode = PayPalSubscriptionEditMode.CreateOnly;
+			SubscriptionPeriod = new Period { Price = 1, Length = 1, Unit = PayPalSubscriptionPeriodUnit.Month };
+			Recurs = PayPalSubscriptionRecurrance.On;
+			Shipping = PayPalShippingMode.Disabled;
+			ReturnUrlMethod = PayPalReturnUrlMethod.Post;
 		}
 
 		public PaypalSubscriptionRequest(IPayPalSettings settings) : this()
 		{
 			_settings = settings;
-			EditMode = PayPalSubscriptionEditMode.CreateOnly;
-			SubscriptionPeriod = new Period { Price = 1, Length = 1, Unit = PayPalSubscriptionPeriodUnit.Month };
-			Recurs = PayPalSubscriptionRecurrance.On;
-			Shipping = PayPalShippingMode.Disabled;
 		}
 
 		public PayPalSubscriptionEditMode EditMode { get; set; }
@@ -95,6 +96,8 @@ namespace XMerchant.PayPal
 		/// </summary>
 		public PayPalShippingMode Shipping { get; set; }
 
+		public PayPalReturnUrlMethod ReturnUrlMethod { get; set; }
+
 		public NameValueCollection GetValues()
 		{
 			var nvc = new NameValueCollection
@@ -103,7 +106,7 @@ namespace XMerchant.PayPal
 				{ PayPalRequestVariables.SellerPayPalAccount, _settings.Account },
 				{ PayPalRequestVariables.ItemName, ItemName },
 				{ PayPalRequestVariables.ItemNumber, ItemNumber },
-				{ PayPalRequestVariables.ReturnUrlMethod, PayPalManager.ValueOf(PayPalReturnUrlMethod.Post) },
+				{ PayPalRequestVariables.ReturnUrlMethod, PayPalManager.ValueOf(ReturnUrlMethod) },
 				{ PayPalRequestVariables.ShippingMode, PayPalManager.ValueOf(Shipping) },
 				{ PayPalRequestVariables.SubscriptionPrice, SubscriptionPeriod.Price.ToString() },
 				{ PayPalRequestVariables.SubscriptionPeriodDuration, SubscriptionPeriod.Length.ToString() },

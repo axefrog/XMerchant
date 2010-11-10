@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XMerchant.PayPal
+﻿namespace XMerchant.PayPal
 {
 	internal class PayPalUrl
 	{
@@ -135,57 +133,61 @@ namespace XMerchant.PayPal
 		public const string SubscriptionModification = "modify";
 		public const string PayPalNewUserAutoGenerate = "usr_manage";
 
-        public const string Amount = "amount";
-        public const string DiscountAmount = "discount_amount";
-        public const string DiscountAmount2 = "discount_amount2";
-        public const string DiscountRate = "discount_rate";
-        public const string DiscountRate2 = "discount_rate2";
-        public const string DiscountNum = "discount_num";
-        public const string Quantity = "quantity";
-        public const string Shipping = "shipping";
-        public const string Shipping2 = "shipping2";
-        public const string Tax = "tax";
-        public const string TaxRate = "tax_rate";
-        public const string UndefinedQuantity = "undefined_quantity";
-        public const string Weight = "weight";
-        public const string WeightUnit = "weight_unit";
-        public const string On0 = "on0";
-        public const string On1 = "on1";
-        public const string On2 = "on2";
-        public const string On3 = "on3";
-        public const string On4 = "on4";
-        public const string On5 = "on5";
-        public const string On6 = "on6";
-        public const string Os0 = "os0";
-        public const string Os1 = "os1";
-        public const string Os2 = "os2";
-        public const string Os3 = "os3";
-        public const string Os4 = "os4";
-        public const string Os5 = "os5";
-        public const string Os6 = "os6";
-        public const string OptionIndex = "option_index";
-        public const string OptionSelect0 = "option_select0";
-        public const string OptionAmount0 = "option_amount0";
-        public const string OptionSelect1 = "option_select1";
-        public const string OptionAmount1 = "option_amount1";
-        public const string OptionSelect2 = "option_select2";
-        public const string OptionAmount2 = "option_amount2";
-        public const string OptionSelect3 = "option_select3";
-        public const string OptionAmount3 = "option_amount3";
-        public const string OptionSelect4 = "option_select4";
-        public const string OptionAmount4 = "option_amount4";
-        public const string OptionSelect5 = "option_select5";
-        public const string OptionAmount5 = "option_amount5";
-        public const string OptionSelect6 = "option_select6";
-        public const string OptionAmount6 = "option_amount6";
-        public const string OptionSelect7 = "option_select7";
-        public const string OptionAmount7 = "option_amount7";
-        public const string OptionSelect8 = "option_select8";
-        public const string OptionAmount8 = "option_amount8";
-        public const string OptionSelect9 = "option_select9";
-        public const string OptionAmount9 = "option_amount9";
 
 		public const string EncryptedData = "encrypted";
+
+		public static class IndividualItems
+		{
+			public const string Amount = "amount";
+			public const string DiscountAmount = "discount_amount";
+			public const string DiscountAmount2 = "discount_amount2";
+			public const string DiscountRate = "discount_rate";
+			public const string DiscountRate2 = "discount_rate2";
+			public const string DiscountNum = "discount_num";
+			public const string Quantity = "quantity";
+			public const string Shipping = "shipping";
+			public const string Shipping2 = "shipping2";
+			public const string Tax = "tax";
+			public const string TaxRate = "tax_rate";
+			public const string UndefinedQuantity = "undefined_quantity";
+			public const string Weight = "weight";
+			public const string WeightUnit = "weight_unit";
+			public const string On0 = "on0";
+			public const string On1 = "on1";
+			public const string On2 = "on2";
+			public const string On3 = "on3";
+			public const string On4 = "on4";
+			public const string On5 = "on5";
+			public const string On6 = "on6";
+			public const string Os0 = "os0";
+			public const string Os1 = "os1";
+			public const string Os2 = "os2";
+			public const string Os3 = "os3";
+			public const string Os4 = "os4";
+			public const string Os5 = "os5";
+			public const string Os6 = "os6";
+			public const string OptionIndex = "option_index";
+			public const string OptionSelect0 = "option_select0";
+			public const string OptionAmount0 = "option_amount0";
+			public const string OptionSelect1 = "option_select1";
+			public const string OptionAmount1 = "option_amount1";
+			public const string OptionSelect2 = "option_select2";
+			public const string OptionAmount2 = "option_amount2";
+			public const string OptionSelect3 = "option_select3";
+			public const string OptionAmount3 = "option_amount3";
+			public const string OptionSelect4 = "option_select4";
+			public const string OptionAmount4 = "option_amount4";
+			public const string OptionSelect5 = "option_select5";
+			public const string OptionAmount5 = "option_amount5";
+			public const string OptionSelect6 = "option_select6";
+			public const string OptionAmount6 = "option_amount6";
+			public const string OptionSelect7 = "option_select7";
+			public const string OptionAmount7 = "option_amount7";
+			public const string OptionSelect8 = "option_select8";
+			public const string OptionAmount8 = "option_amount8";
+			public const string OptionSelect9 = "option_select9";
+			public const string OptionAmount9 = "option_amount9";
+		}
 
 		/// <summary>
 		/// https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_html_IPNandPDTVariables#id091EB01I0Y4

@@ -1,10 +1,12 @@
-ï»¿using System;
+using System;
 using System.Collections.Specialized;
 
 namespace XMerchant.PayPal
 {
     public class PaypalBuyNowRequest
     {
+		// Information about the variables can be found at https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables#id08A6HF080O3
+
         private readonly IPayPalSettings _settings;
 
         public PaypalBuyNowRequest()
@@ -87,7 +89,7 @@ namespace XMerchant.PayPal
 
         /// <summary>
         /// The cost of shipping this item. If you specify shipping and shipping2 is not defined, this flat amount is charged regardless of the quantity of items purchased.
-        /// Default â€“ If profile-based shipping rates are configured, buyers are charged an amount according to the shipping methods they choose.
+        /// Default – If profile-based shipping rates are configured, buyers are charged an amount according to the shipping methods they choose.
         /// </summary>
         /// <remarks>Optional</remarks>
         public decimal? Shipping { get; set; }
@@ -99,15 +101,15 @@ namespace XMerchant.PayPal
         public decimal? Shipping2 { get; set; }
 
         /// <summary>
-        /// Transaction-based tax override variable. Set this to a flat tax amount to apply to the transaction regardless of the buyerâ€™s location. This value overrides any tax settings set in your account profile.
-        /// Default â€“ Profile tax settings, if any, apply.
+        /// Transaction-based tax override variable. Set this to a flat tax amount to apply to the transaction regardless of the buyer’s location. This value overrides any tax settings set in your account profile.
+        /// Default – Profile tax settings, if any, apply.
         /// </summary>
         /// <remarks>Optional</remarks>
         public decimal? Tax { get; set; }
 
         /// <summary>
         /// Transaction-based tax override variable. Set this to a percentage that will be applied to amount multiplied the quantity selected during checkout. This value overrides any tax settings set in your account profile. Allowable values are numbers 0.001 through 100.
-        /// Default â€“ Profile tax settings, if any, apply.
+        /// Default – Profile tax settings, if any, apply.
         /// </summary>
         /// <remarks>Optional</remarks>
         public decimal? TaxRate { get; set; }
@@ -312,107 +314,107 @@ namespace XMerchant.PayPal
                               {PayPalRequestVariables.SellerPayPalAccount, _settings.Account}
                           };
             if (Amount.HasValue)
-                nvc.Add(PayPalRequestVariables.Amount, Convert.ToString(Amount.Value));
+                nvc.Add(PayPalRequestVariables.IndividualItems.Amount, Convert.ToString(Amount.Value));
             if (DiscountAmount.HasValue)
-                nvc.Add(PayPalRequestVariables.DiscountAmount, Convert.ToString(DiscountAmount.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.DiscountAmount, Convert.ToString(DiscountAmount.Value));
             if (DiscountAmount2.HasValue)
-                nvc.Add(PayPalRequestVariables.DiscountAmount2, Convert.ToString(DiscountAmount2.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.DiscountAmount2, Convert.ToString(DiscountAmount2.Value));
             if (DiscountRate.HasValue)
-                nvc.Add(PayPalRequestVariables.DiscountRate, Convert.ToString(DiscountRate.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.DiscountRate, Convert.ToString(DiscountRate.Value));
             if (DiscountRate2.HasValue)
-                nvc.Add(PayPalRequestVariables.DiscountRate2, Convert.ToString(DiscountRate2.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.DiscountRate2, Convert.ToString(DiscountRate2.Value));
             if (DiscountNum.HasValue)
-                nvc.Add(PayPalRequestVariables.DiscountNum, Convert.ToString(DiscountNum.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.DiscountNum, Convert.ToString(DiscountNum.Value));
             if (!string.IsNullOrWhiteSpace(ItemName))
                 nvc.Add(PayPalRequestVariables.ItemName, ItemName);
             if (!string.IsNullOrWhiteSpace(ItemNumber))
                 nvc.Add(PayPalRequestVariables.ItemNumber, ItemNumber);
             if (Quantity.HasValue)
-                nvc.Add(PayPalRequestVariables.Quantity, Convert.ToString(Quantity.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.Quantity, Convert.ToString(Quantity.Value));
             if (Shipping.HasValue)
-                nvc.Add(PayPalRequestVariables.Shipping, Convert.ToString(Shipping.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.Shipping, Convert.ToString(Shipping.Value));
             if (Shipping2.HasValue)
-                nvc.Add(PayPalRequestVariables.Shipping2, Convert.ToString(Shipping2.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.Shipping2, Convert.ToString(Shipping2.Value));
             if (Tax.HasValue)
-                nvc.Add(PayPalRequestVariables.Tax, Convert.ToString(Tax.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.Tax, Convert.ToString(Tax.Value));
             if (TaxRate.HasValue)
-                nvc.Add(PayPalRequestVariables.TaxRate, Convert.ToString(TaxRate.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.TaxRate, Convert.ToString(TaxRate.Value));
             if (UndefinedQuantity ?? false)
-                nvc.Add(PayPalRequestVariables.UndefinedQuantity, "1");
+				nvc.Add(PayPalRequestVariables.IndividualItems.UndefinedQuantity, "1");
             if (Weight.HasValue)
-                nvc.Add(PayPalRequestVariables.Weight, Convert.ToString(Weight.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.Weight, Convert.ToString(Weight.Value));
             if (WeightUnit.HasValue)
-                nvc.Add(PayPalRequestVariables.WeightUnit, PayPalManager.ValueOf(WeightUnit.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.WeightUnit, PayPalManager.ValueOf(WeightUnit.Value));
             if (!string.IsNullOrWhiteSpace(On0))
-                nvc.Add(PayPalRequestVariables.On0, On0);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On0, On0);
             if (!string.IsNullOrWhiteSpace(On1))
-                nvc.Add(PayPalRequestVariables.On1, On1);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On1, On1);
             if (!string.IsNullOrWhiteSpace(On2))
-                nvc.Add(PayPalRequestVariables.On2, On2);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On2, On2);
             if (!string.IsNullOrWhiteSpace(On3))
-                nvc.Add(PayPalRequestVariables.On3, On3);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On3, On3);
             if (!string.IsNullOrWhiteSpace(On4))
-                nvc.Add(PayPalRequestVariables.On4, On4);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On4, On4);
             if (!string.IsNullOrWhiteSpace(On5))
-                nvc.Add(PayPalRequestVariables.On5, On5);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On5, On5);
             if (!string.IsNullOrWhiteSpace(On6))
-                nvc.Add(PayPalRequestVariables.On6, On6);
+				nvc.Add(PayPalRequestVariables.IndividualItems.On6, On6);
             if (!string.IsNullOrWhiteSpace(Os0))
-                nvc.Add(PayPalRequestVariables.Os0, Os0);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os0, Os0);
             if (!string.IsNullOrWhiteSpace(Os1))
-                nvc.Add(PayPalRequestVariables.Os1, Os1);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os1, Os1);
             if (!string.IsNullOrWhiteSpace(Os2))
-                nvc.Add(PayPalRequestVariables.Os2, Os2);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os2, Os2);
             if (!string.IsNullOrWhiteSpace(Os3))
-                nvc.Add(PayPalRequestVariables.Os3, Os3);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os3, Os3);
             if (!string.IsNullOrWhiteSpace(Os4))
-                nvc.Add(PayPalRequestVariables.Os4, Os4);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os4, Os4);
             if (!string.IsNullOrWhiteSpace(Os5))
-                nvc.Add(PayPalRequestVariables.Os5, Os5);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os5, Os5);
             if (!string.IsNullOrWhiteSpace(Os6))
-                nvc.Add(PayPalRequestVariables.Os6, Os6);
+				nvc.Add(PayPalRequestVariables.IndividualItems.Os6, Os6);
             if (OptionIndex.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionIndex, Convert.ToString(OptionIndex.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionIndex, Convert.ToString(OptionIndex.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect0))
-                nvc.Add(PayPalRequestVariables.OptionSelect0, OptionSelect0);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect0, OptionSelect0);
             if (OptionAmount0.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount0, Convert.ToString(OptionAmount0.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount0, Convert.ToString(OptionAmount0.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect1))
-                nvc.Add(PayPalRequestVariables.OptionSelect1, OptionSelect1);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect1, OptionSelect1);
             if (OptionAmount1.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount1, Convert.ToString(OptionAmount1.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount1, Convert.ToString(OptionAmount1.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect2))
-                nvc.Add(PayPalRequestVariables.OptionSelect2, OptionSelect2);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect2, OptionSelect2);
             if (OptionAmount2.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount2, Convert.ToString(OptionAmount2.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount2, Convert.ToString(OptionAmount2.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect3))
-                nvc.Add(PayPalRequestVariables.OptionSelect3, OptionSelect3);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect3, OptionSelect3);
             if (OptionAmount3.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount3, Convert.ToString(OptionAmount3.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount3, Convert.ToString(OptionAmount3.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect4))
-                nvc.Add(PayPalRequestVariables.OptionSelect4, OptionSelect4);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect4, OptionSelect4);
             if (OptionAmount4.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount4, Convert.ToString(OptionAmount4.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount4, Convert.ToString(OptionAmount4.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect5))
-                nvc.Add(PayPalRequestVariables.OptionSelect5, OptionSelect5);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect5, OptionSelect5);
             if (OptionAmount5.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount5, Convert.ToString(OptionAmount5.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount5, Convert.ToString(OptionAmount5.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect6))
-                nvc.Add(PayPalRequestVariables.OptionSelect6, OptionSelect6);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect6, OptionSelect6);
             if (OptionAmount6.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount6, Convert.ToString(OptionAmount6.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount6, Convert.ToString(OptionAmount6.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect7))
-                nvc.Add(PayPalRequestVariables.OptionSelect7, OptionSelect7);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect7, OptionSelect7);
             if (OptionAmount7.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount7, Convert.ToString(OptionAmount7.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount7, Convert.ToString(OptionAmount7.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect8))
-                nvc.Add(PayPalRequestVariables.OptionSelect8, OptionSelect8);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect8, OptionSelect8);
             if (OptionAmount8.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount8, Convert.ToString(OptionAmount8.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount8, Convert.ToString(OptionAmount8.Value));
             if (!string.IsNullOrWhiteSpace(OptionSelect9))
-                nvc.Add(PayPalRequestVariables.OptionSelect9, OptionSelect9);
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionSelect9, OptionSelect9);
             if (OptionAmount9.HasValue)
-                nvc.Add(PayPalRequestVariables.OptionAmount9, Convert.ToString(OptionAmount9.Value));
+				nvc.Add(PayPalRequestVariables.IndividualItems.OptionAmount9, Convert.ToString(OptionAmount9.Value));
 
             string notifyUrl = string.IsNullOrWhiteSpace(NotifyUrl)
                                    ? string.IsNullOrWhiteSpace(_settings.NotifyUrl) ? null : _settings.NotifyUrl
