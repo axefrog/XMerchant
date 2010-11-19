@@ -82,6 +82,11 @@ namespace XMerchant.PayPal
         public string ItemNumber { get; set; }
 
         /// <summary>
+        /// Passed back when the payment is made. Max 255 characters.
+        /// </summary>
+        public string CustomValue { get; set; }
+
+        /// <summary>
         /// Number of items. If profile-based shipping rates are configured with a basis of quantity, the sum of quantity values is used to calculate the shipping charges for the transaction. PayPal appends a sequence number to uniquely identify the item in the PayPal Shopping Cart (e.g., quantity1, quantity2)
         /// </summary>
         /// <remarks>Optional</remarks>
@@ -329,6 +334,8 @@ namespace XMerchant.PayPal
                 nvc.Add(PayPalRequestVariables.ItemName, ItemName);
             if (!string.IsNullOrWhiteSpace(ItemNumber))
                 nvc.Add(PayPalRequestVariables.ItemNumber, ItemNumber);
+            if (!string.IsNullOrWhiteSpace(CustomValue))
+                nvc.Add(PayPalRequestVariables.CustomValue, CustomValue);
             if (Quantity.HasValue)
 				nvc.Add(PayPalRequestVariables.IndividualItems.Quantity, Convert.ToString(Quantity.Value));
             if (Shipping.HasValue)
