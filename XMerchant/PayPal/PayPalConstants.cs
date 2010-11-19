@@ -630,5 +630,7 @@
 			/// </summary>
 			public const string TransactionEntity = "transaction_entity";
 		}
-	}
+    
+        public const string CustomValue = "custom";
+    }
 }

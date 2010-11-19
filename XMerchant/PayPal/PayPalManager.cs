@@ -66,6 +66,8 @@ namespace XMerchant.PayPal
 			trans.PaymentStatus  = form[PayPalResponseVariables.PaymentInformation.PaymentStatus] == null ? null : (PayPalPaymentStatus?)GetPaymentStatus(form[PayPalResponseVariables.PaymentInformation.PaymentStatus]);
 			trans.ReasonCode     = form[PayPalResponseVariables.PaymentInformation.ReasonCode] == null ? null : (PayPalReasonCode?)GetReasonCode(form[PayPalResponseVariables.PaymentInformation.ReasonCode]);
 
+		    trans.CustomValue = form[PayPalResponseVariables.CustomValue];
+
 			return trans;
 		}
 		private static PayPalTransaction.Period GetPeriod(NameValueCollection form, string amountVar, string periodVar)

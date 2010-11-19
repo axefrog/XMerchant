@@ -226,7 +226,8 @@ namespace XMerchant.PayPal
 		public double? GrossAmount { get; set; }
 		public PayPalPaymentStatus? PaymentStatus { get; set; }
 		public PayPalReasonCode? ReasonCode { get; set; }
-		#endregion
+        #endregion
 
-	}
+        public string CustomValue { get; set; }
+    }
 }
