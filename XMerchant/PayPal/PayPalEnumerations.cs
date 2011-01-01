@@ -97,6 +97,13 @@ namespace XMerchant.PayPal
 		[Description("Monthly subscription paid for Website Payments Pro")]
 		[PayPalValue("merch_pmt")]
 		WebsitePaymentsProFee,
+
+		/// <summary>
+		/// PayPal is completely missing a TransactionType for the refund status, so we have to use one here. There is
+		/// (currently) no matching txn_type for this, so it needs to be identified by looking at PaymentStatus.
+		/// </summary>
+		Refund,
+
 		/// <summary>
 		/// Some transaction type that did not exist when this code was written
 		/// </summary>
@@ -265,11 +272,13 @@ namespace XMerchant.PayPal
 		/// </summary>
 		[PayPalValue("In-Progress")]
 		InProgress,
-		/// <summary>
-		/// The transaction has been partially refunded.
-		/// </summary>
-		[PayPalValue("Partially-Refunded")]
-		PartiallyRefunded,
+		
+		// CODE UPDATE: PayPal apparently doesn't seem to report this code anymore; partial refunds are grouped with full refunds
+		///// <summary>
+		///// The transaction has been partially refunded.
+		///// </summary>
+		//[PayPalValue("Partially-Refunded")]
+		//PartiallyRefunded,
 		/// <summary>
 		/// The payment is pending. See pending_ re for more information.
 		/// </summary>

@@ -66,6 +66,13 @@ namespace XMerchant.PayPal
 			trans.PaymentStatus  = form[PayPalResponseVariables.PaymentInformation.PaymentStatus] == null ? null : (PayPalPaymentStatus?)GetPaymentStatus(form[PayPalResponseVariables.PaymentInformation.PaymentStatus]);
 			trans.ReasonCode     = form[PayPalResponseVariables.PaymentInformation.ReasonCode] == null ? null : (PayPalReasonCode?)GetReasonCode(form[PayPalResponseVariables.PaymentInformation.ReasonCode]);
 
+			// PayPal doesn't seem to send a txn_type variable when there's a refund
+			if(trans.TransactionType == PayPalTransactionType.Unknown)
+			{
+				if(trans.PaymentStatus == PayPalPaymentStatus.Refunded)
+					trans.TransactionType = PayPalTransactionType.Refund;
+			}
+
 			return trans;
 		}
 		private static PayPalTransaction.Period GetPeriod(NameValueCollection form, string amountVar, string periodVar)
@@ -85,7 +92,7 @@ namespace XMerchant.PayPal
 			return new Tuple<int, PayPalSubscriptionPeriodUnit>(int.Parse(arr[0]), GetSubscriptionPeriodUnit(arr[1]));
 		}
 
-		internal static bool AuthenticateIPN(NameValueCollection form)
+		public static bool AuthenticateIPN(NameValueCollection form)
 		{
 			var url = form[PayPalResponseVariables.TransactionInformation.IsTest] == "1" ? PayPalUrl.Sandbox : PayPalUrl.Production;
 			string data = string.Concat(PayPalRequestVariables.Command, "=", EnumToVar(PayPalCommand.ValidateIPN), "&", form.ToQueryString());
