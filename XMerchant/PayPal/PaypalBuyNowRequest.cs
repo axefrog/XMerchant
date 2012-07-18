@@ -22,17 +22,17 @@ namespace XMerchant.PayPal
 		/// <summary>
 		/// The price or amount of the product, service, or contribution, not including shipping, handling, or tax. If omitted from Buy Now or Donate buttons, payers enter their own amount at the time of payment.
 		/// </summary>
-		public double? Amount { get; set; }
+		public decimal? Amount { get; set; }
 
 		/// <summary>
 		/// Discount amount associated with an item. It must be less than the selling price of the item. If you specify discount_amount and discount_amount2 is not defined, then this flat amount is applied regardless of the quantity of items purchased. Valid only for Buy Now and Add to Cart buttons.
 		/// </summary>
-		public double? DiscountAmount { get; set; }
+		public decimal? DiscountAmount { get; set; }
 
 		/// <summary>
 		/// Discount rate (percentage) associated with an item. It must be set to a value less than 100. If you do not set discount_rate2, the value in discount_rate applies only to the first item regardless of the quantity of items purchased. Valid only for Buy Now and Add to Cart buttons.
 		/// </summary>
-		public double? DiscountRate { get; set; }
+		public decimal? DiscountRate { get; set; }
 
 		/// <summary>
 		/// Weight of items. If profile-based shipping rates are configured with a basis of weight, the sum of weight values is used to calculate the shipping charges for the transaction.
@@ -57,17 +57,17 @@ namespace XMerchant.PayPal
 		/// <summary>
 		/// The cost of shipping this item. If you specify shipping and shipping2 is not defined, this flat amount is charged regardless of the quantity of items purchased. This use of the shipping variable is valid only for Buy Now and Add to Cart buttons. Default – If profile-based shipping rates are configured, buyers are charged an amount according to the shipping methods they choose.
 		/// </summary>
-		public double? ShippingAmount { get; set; }
+		public decimal? ShippingAmount { get; set; }
 
 		/// <summary>
 		/// Transaction-based tax override variable. Set this to a flat tax amount to apply to the transaction regardless of the buyer’s location. This value overrides any tax settings set in your account profile. Valid only for Buy Now and Add to Cart buttons. Default – Profile tax settings, if any, apply.
 		/// </summary>
-		public double? TaxAmount { get; set; }
+		public decimal? TaxAmount { get; set; }
 
 		/// <summary>
 		/// Transaction-based tax override variable. Set this to a percentage that will be applied to amount multiplied the quantity selected during checkout. This value overrides any tax settings set in your account profile. Allowable values are numbers 0.001 through 100. Valid only for Buy Now and Add to Cart buttons. Default – Profile tax settings, if any, apply.
 		/// </summary>
-		public double? TaxRate { get; set; }
+		public decimal? TaxRate { get; set; }
 
 		/// <summary>
 		/// Passed back when the payment is made. Max 255 characters.
