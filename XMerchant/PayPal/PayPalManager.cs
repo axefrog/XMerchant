@@ -60,9 +60,9 @@ namespace XMerchant.PayPal
 			trans.SubscriptionChangeEffectiveDate = DateTime.TryParse(form[PayPalResponseVariables.SubscriptionInformation.SubscriptionChangeEffectiveDate], out dt) ? (DateTime?)dt : null;
 			trans.SubscriptionID                  = form[PayPalResponseVariables.SubscriptionInformation.SubscriptionID];
 
-			double d;
-			trans.GrossAmount    = double.TryParse(form[PayPalResponseVariables.PaymentInformation.GrossAmount], out d) ? (double?)d : null;
-			trans.TransactionFee = double.TryParse(form[PayPalResponseVariables.PaymentInformation.TransactionFee], out d) ? (double?)d : null;
+			decimal d;
+			trans.GrossAmount    = decimal.TryParse(form[PayPalResponseVariables.PaymentInformation.GrossAmount], out d) ? (decimal?)d : null;
+			trans.TransactionFee = decimal.TryParse(form[PayPalResponseVariables.PaymentInformation.TransactionFee], out d) ? (decimal?)d : null;
 			trans.PaymentStatus  = form[PayPalResponseVariables.PaymentInformation.PaymentStatus] == null ? null : (PayPalPaymentStatus?)GetPaymentStatus(form[PayPalResponseVariables.PaymentInformation.PaymentStatus]);
 			trans.ReasonCode     = form[PayPalResponseVariables.PaymentInformation.ReasonCode] == null ? null : (PayPalReasonCode?)GetReasonCode(form[PayPalResponseVariables.PaymentInformation.ReasonCode]);
 
@@ -81,7 +81,7 @@ namespace XMerchant.PayPal
 			var period = GetPeriod(form[periodVar]);
 			return new PayPalTransaction.Period
 			{
-				Amount = double.Parse(form[amountVar]),
+				Amount = decimal.Parse(form[amountVar]),
 				Length = period.Item1,
 				Unit = period.Item2
 			};
