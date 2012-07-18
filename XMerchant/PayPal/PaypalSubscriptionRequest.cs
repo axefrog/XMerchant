@@ -68,7 +68,7 @@ namespace XMerchant.PayPal
 			/// <summary>
 			/// Cost of the period. Set to 0 to make it free.
 			/// </summary>
-			public double Price { get; set; }
+			public decimal Price { get; set; }
 		}
 
 		/// <summary>

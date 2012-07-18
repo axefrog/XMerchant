@@ -167,7 +167,7 @@ namespace XMerchant.PayPal
 			/// <summary>
 			/// Charged amount for the period. 0 = free
 			/// </summary>
-			public double Amount { get; set; }
+			public decimal Amount { get; set; }
 		}
 
 		/// <summary>
@@ -222,8 +222,8 @@ namespace XMerchant.PayPal
 		#endregion
 
 		#region Payment Information Variables
-		public double? TransactionFee { get; set; }
-		public double? GrossAmount { get; set; }
+		public decimal? TransactionFee { get; set; }
+		public decimal? GrossAmount { get; set; }
 		public PayPalPaymentStatus? PaymentStatus { get; set; }
 		public PayPalReasonCode? ReasonCode { get; set; }
 		#endregion
